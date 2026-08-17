@@ -32,6 +32,7 @@ export default defineConfig({
         theme_color: '#3f51b5',
         background_color: '#f4f6f8',
         display: 'standalone',
+        start_url: '.',
         icons: [
           {
             src: 'favicon.png',

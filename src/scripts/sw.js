@@ -65,7 +65,8 @@ async function syncOutboxStories() {
 self.addEventListener('push', (event) => {
   if (event.data) {
     try {
-      const data = event.data.json();
+      const text = event.data.text();
+      const data = JSON.parse(text);
       const options = {
         body: data.options?.body || 'Anda mendapatkan notifikasi baru.',
         icon: '/favicon.png',
@@ -76,6 +77,13 @@ self.addEventListener('push', (event) => {
       );
     } catch (e) {
       console.error('Error parsing push data', e);
+      // Fallback if not JSON
+      event.waitUntil(
+        self.registration.showNotification('Notification', {
+          body: event.data.text(),
+          icon: '/favicon.png'
+        })
+      );
     }
   }
 });

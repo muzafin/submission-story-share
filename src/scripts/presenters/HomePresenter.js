@@ -1,6 +1,7 @@
 import StoryModel from '../models/StoryModel.js';
 import HomeView from '../views/HomeView.js';
 import { checkIsSubscribed, isPushSupported, subscribePushNotification, unsubscribePushNotification } from '../utils/push-manager.js';
+import IdbHelper from '../utils/IdbHelper.js';
 
 class HomePresenter {
   constructor() {
@@ -22,6 +23,9 @@ class HomePresenter {
       // Search Handler
       this.view.bindSearchEvent(this.handleSearch.bind(this));
 
+      // Bookmark Handler
+      this.view.bindSaveEvent(this.handleSaveStory.bind(this));
+
       // Push Notification Initialization
       if (isPushSupported()) {
         const isSubscribed = await checkIsSubscribed();
@@ -36,6 +40,16 @@ class HomePresenter {
 
   onStoryClick(story) {
     this.view.focusMap(story);
+  }
+
+  async handleSaveStory(story) {
+    try {
+      await IdbHelper.putSavedStory(story);
+      alert('Cerita berhasil disimpan! Lihat di menu Simpan.');
+    } catch (e) {
+      alert('Gagal menyimpan cerita.');
+      console.error(e);
+    }
   }
 
   handleSearch(query) {

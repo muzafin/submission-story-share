@@ -1,3 +1,5 @@
 # STUDENT INFO
 Aplikasi ini menggunakan Leaflet.js dengan OpenStreetMap (OSM) dan OpenTopoMap sebagai tile provider.
 Layanan peta ini tidak memerlukan API Key.
+
+URL Deployment: https://muzafin.github.io/submission-story-share/

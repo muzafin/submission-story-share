@@ -15,6 +15,7 @@ class HomeView {
         </div>
         
         <div class="search-bar" style="margin-bottom: 1rem;">
+          <label for="search-input" class="sr-only">Cari cerita berdasarkan nama atau deskripsi</label>
           <input type="text" id="search-input" placeholder="Cari cerita berdasarkan nama atau deskripsi..." style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
         </div>
 
@@ -102,12 +103,23 @@ class HomeView {
       article.innerHTML = `
         <img src="${story.photoUrl}" alt="Foto dari ${story.name}" class="story-img" />
         <div class="story-info">
-          <h3>${story.name}</h3>
+          <div style="display: flex; justify-content: space-between; align-items: start;">
+            <h3>${story.name}</h3>
+            <button class="btn btn-secondary btn-sm btn-save" data-id="${story.id}" aria-label="Simpan Cerita">🔖 Simpan</button>
+          </div>
           <p class="story-date">${new Date(story.createdAt).toLocaleDateString()}</p>
           <p class="story-desc">${story.description.slice(0, 100)}...</p>
         </div>
       `;
       
+      const saveBtn = article.querySelector('.btn-save');
+      saveBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (this.onSaveClick) {
+          this.onSaveClick(story);
+        }
+      });
+
       article.addEventListener('click', () => {
         onStoryClick(story);
       });
@@ -127,7 +139,6 @@ class HomeView {
     listContainer.innerHTML = `<p class="error-message">${message}</p>`;
   }
 
-  // Interactivity for Push and Search
   bindSearchEvent(handler) {
     const searchInput = document.querySelector('#search-input');
     if (searchInput) {
@@ -135,6 +146,10 @@ class HomeView {
         handler(e.target.value);
       });
     }
+  }
+
+  bindSaveEvent(handler) {
+    this.onSaveClick = handler;
   }
 
   bindPushToggleEvent(handler) {

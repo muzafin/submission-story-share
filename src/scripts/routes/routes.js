@@ -3,13 +3,15 @@ import RegisterPresenter from '../presenters/RegisterPresenter.js';
 import HomePresenter from '../presenters/HomePresenter.js';
 import AddStoryPresenter from '../presenters/AddStoryPresenter.js';
 import DetailPresenter from '../presenters/DetailPresenter.js';
+import SavedPresenter from '../presenters/SavedPresenter.js';
 
 const routes = {
   '/': HomePresenter,
   '/login': LoginPresenter,
   '/register': RegisterPresenter,
   '/add-story': AddStoryPresenter,
-  '/stories/:id': DetailPresenter
+  '/stories/:id': DetailPresenter,
+  '/saved': SavedPresenter
 };
 
 export default routes;
